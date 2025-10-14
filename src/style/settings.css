@@ -1,0 +1,163 @@
+.settings-page {
+  background-color: #000;
+  color: #ff4444;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Topbar */
+.topbar {
+  position: relative;
+  padding: 0.8rem 1rem;
+}
+
+.menu-btn {
+  background-color: #2a2a2a;
+  border: 2px solid #ff4444;
+  color: #ff4444;
+  font-size: 1.6rem;
+  border-radius: 8px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.menu-btn:hover {
+  background-color: #ff4444;
+  color: #000;
+}
+
+.menu-popup {
+  position: absolute;
+  top: 3.2rem;
+  left: 1rem;
+  background-color: #1a1a1a;
+  border: 2px solid #ff4444;
+  border-radius: 12px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 50;
+}
+
+.menu-popup button {
+  background-color: #2a2a2a;
+  border: 2px solid #ff4444;
+  color: #ff4444;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.menu-popup button:hover {
+  background-color: #ff4444;
+  color: #000;
+}
+
+/* Main container */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.settings-container h1 {
+  color: #ff4444;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.settings-box {
+  background-color: #1a1a1a;
+  border: 2px solid #ff4444;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.2);
+}
+
+/* Individual setting */
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-item label {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Text input */
+.setting-item input[type="text"] {
+  background-color: #2a2a2a;
+  border: 2px solid #ff4444;
+  color: #ff4444;
+  border-radius: 10px;
+  padding: 0.6rem;
+  outline: none;
+}
+
+.setting-item input[type="text"]:focus {
+  border-color: #ff8888;
+}
+
+/* Toggles */
+.setting-item.toggle {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: #ff4444;
+}
+
+/* Audio options (radio buttons) */
+.audio-options {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  border: 2px solid #ff4444;
+}
+
+.audio-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.audio-options input[type="radio"] {
+  accent-color: #ff4444;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #2a2a2a;
+  border: 2px solid #ff4444;
+  border-radius: 10px;
+  color: #ff4444;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #ff4444;
+  color: #000;
+  transform: translateY(-2px);
+}
