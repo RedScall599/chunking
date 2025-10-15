@@ -1,5 +1,9 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { ChatPanel } from "./ChatPanel";
+import "../style/Learnmore.css"
+
+
 
 export default function LearnMore() {
   const navigate = useNavigate()
@@ -9,19 +13,23 @@ export default function LearnMore() {
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const handleSend = async () => {
+  async function handleSend (e) {
     if (!input.trim()) return
-
+    console.log("Sending message:", e)
     const userMsg = { sender: "user", text: input }
     setMessages(prev => [...prev, userMsg])
     setInput("")
     setLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/chat", {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+      },
         body: JSON.stringify({
+          model: "gpt-4o-mini",
           messages: [
             { role: "system", content: "You are a helpful assistant that explains Chunking clearly." },
             { role: "user", content: input }
@@ -69,7 +77,7 @@ export default function LearnMore() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <button onClick={handleSend} disabled={loading}>
+          <button onClick={(e) => handleSend(e)} disabled={loading}>
             Send
           </button>
         </div>

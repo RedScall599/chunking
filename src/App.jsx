@@ -3,6 +3,7 @@ import Learnmore from './componets/Learnmore'
 import Home from './componets/Home'
 import Tasks from './componets/Tasks'
 import Settings from './componets/Settings'
+import { ChatPanel } from "./componets/ChatPanel";
 import './style/Settings.css'
 import './style/Tasks.css'
 import './style/Home.css'
@@ -13,6 +14,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 export default function App() {
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<Frontpage />} />
@@ -24,6 +26,9 @@ export default function App() {
 
       </Routes>
     </Router>
+    
+      <ChatPanel />
+    </>
   )
 }
 
