@@ -20,15 +20,20 @@ export function ChatPanel({ context }) {
         context,
       });
 
+      const aiText = result.choices && result.choices[0] && result.choices[0].message && result.choices[0].message.content
+        ? result.choices[0].message.content.trim()
+        : "Hmm, I’m not sure how to answer that.";
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: result.reply },
+        { role: "assistant", content: aiText },
       ]);
     } catch (error) {
       console.error(error);
     }
 
-    event.currentTarget.reset();
+    if (event.currentTarget && typeof event.currentTarget.reset === 'function') {
+      event.currentTarget.reset();
+    }
   }
 
   return (

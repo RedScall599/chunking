@@ -14,8 +14,8 @@ export default function LearnMore() {
   const [loading, setLoading] = useState(false)
 
   async function handleSend (e) {
-    if (!input.trim()) return
-    console.log("Sending message:", e)
+  if (!input.trim()) return
+  console.log("Sending message:", input)
     const userMsg = { sender: "user", text: input }
     setMessages(prev => [...prev, userMsg])
     setInput("")
@@ -25,9 +25,9 @@ export default function LearnMore() {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-      },
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
         body: JSON.stringify({
           model: "gpt-4o-mini",
           messages: [
@@ -35,11 +35,14 @@ export default function LearnMore() {
             { role: "user", content: input }
           ]
         })
-      })
+      });
 
-      const data = await response.json()
-      const aiMsg = { sender: "ai", text: data.reply || "Hmm, I’m not sure how to answer that." }
-      setMessages(prev => [...prev, aiMsg])
+      const data = await response.json();
+      const aiText = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content
+        ? data.choices[0].message.content.trim()
+        : "Hmm, I’m not sure how to answer that.";
+      const aiMsg = { sender: "ai", text: aiText };
+      setMessages(prev => [...prev, aiMsg]);
     } catch (err) {
       console.error(err)
       setMessages(prev => [...prev, { sender: "ai", text: "⚠️ Error: Unable to reach AI server." }])
