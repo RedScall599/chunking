@@ -4,10 +4,10 @@ import Home from './componets/Home'
 import Tasks from './componets/Tasks'
 import Settings from './componets/Settings'
 import './style/settings.css'
-import './style/Tasks.css'
-import './style/Home.css'
+import './style/tasks.css'
+import './style/home.css'
 import './style/Frontpage.css'
-import './style/Learnmore.css'
+import './style/learnmore.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 
