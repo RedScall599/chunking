@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import "../style/Settings.css"
+import "../style/settings.css"
 
 export default function Settings() {
   const [menuOpen, setMenuOpen] = useState(false)

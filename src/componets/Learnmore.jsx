@@ -2,7 +2,7 @@ import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 
-import "../style/Learnmore.css"
+import "../style/learnmore.css"
 
 
 

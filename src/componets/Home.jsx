@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import "../style/Home.css"
+import "../style/home.css"
 import { auth, signInWithGoogle } from "../lib/firebase";
 
 export default function Home() {

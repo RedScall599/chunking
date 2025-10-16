@@ -4,7 +4,7 @@
 import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
-import "../style/Tasks.css"
+import "../style/tasks.css"
 
 // ===============================
 // Main Tasks Component
