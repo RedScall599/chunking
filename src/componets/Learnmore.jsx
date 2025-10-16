@@ -1,6 +1,7 @@
 import { useState } from "react"
+import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
-import { ChatPanel } from "./ChatPanel";
+
 import "../style/Learnmore.css"
 
 
@@ -66,7 +67,9 @@ export default function LearnMore() {
         <div className="messages">
           {messages.map((msg, i) => (
             <div key={i} className={`message ${msg.sender}`}>
-              {msg.text}
+              {msg.sender === "ai"
+                ? <ReactMarkdown>{msg.text}</ReactMarkdown>
+                : msg.text}
             </div>
           ))}
           {loading && <div className="message ai">Typing...</div>}

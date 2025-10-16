@@ -1,8 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "../style/Home.css"
+import { auth, signInWithGoogle } from "../lib/firebase";
 
 export default function Home() {
+  const handleLogin = async () => {
+    const loggedUser = await signInWithGoogle();
+    setUser(loggedUser);
+  };
+
   const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -20,6 +26,7 @@ export default function Home() {
         {/* Slide-out menu */}
         {menuOpen && (
           <div className="menu-popup">
+            <button onClick={handleLogin}>Sign in with Google</button>
             <button onClick={() => navigate("/settings")}>Settings</button>
             <button onClick={() => navigate("/user")}>User</button>
             <button onClick={() => navigate("/tasks")}>Tasks</button>
