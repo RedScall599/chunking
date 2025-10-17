@@ -1,22 +1,89 @@
-<<<<<<< HEAD
-# chunking
-app/website to help break down task to prevent overwhelming working conditions
-=======
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Chunking** is a productivity web app designed to help users break down large goals into smaller, manageable tasks. By visualizing progress and leveraging AI-powered chat, Chunking helps prevent overwhelm and keeps you motivated.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Project Management:**  
+	Create, track, and complete projects with customizable goals and checklists.
 
-## React Compiler
+- **Task Progression:**  
+	Move projects from "Current" to "Finished" automatically as you complete all tasks.
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **AI Assistant:**  
+	Integrated OpenAI-powered chat to answer questions, summarize information, and provide productivity tips using Markdown formatting.
 
-## Expanding the ESLint configuration
+- **Modern UI:**  
+	Responsive, dark-themed interface with a sidebar, chat area, and popups for project goals.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# chunking
->>>>>>> c2637d5 (first commit)
+- **Rich Markdown Support:**  
+	AI responses and project goals are rendered with Markdown for better readability.
+
+## Tech Stack
+
+- **Frontend:** React 19, Vite
+- **Routing:** React Router DOM
+- **AI Integration:** OpenAI API (chat completions)
+- **Markdown Rendering:** react-markdown
+- **State Management:** React hooks
+- **Styling:** Custom CSS (dark/red theme)
+
+## Getting Started
+
+1. **Install dependencies:**
+	 ```bash
+	 npm install
+	 ```
+
+2. **Set up your OpenAI API key:**
+	 - Create a `.env` file in the project root.
+	 - Add your key:
+		 ```
+		 VITE_OPENAI_API_KEY=your_openai_key_here
+		 ```
+
+3. **Run the development server:**
+	 ```bash
+	 npm run dev
+	 ```
+
+4. **Build for production:**
+	 ```bash
+	 npm run build
+	 ```
+
+## Usage
+
+- **Create a Project:**  
+	Use the sidebar to add a new project, set goals, and select checklist items.
+
+- **Track Progress:**  
+	Check off tasks as you complete them. Projects automatically move to "Finished" when all tasks are done.
+
+- **View Goals:**  
+	Click "View Goals" on any project to see its objectives in a popup, with preserved formatting.
+
+- **Chat with AI:**  
+	Use the chat area to ask questions about productivity, chunking, or your tasks. The AI responds with formatted Markdown.
+
+## Folder Structure
+
+```
+src/
+	componets/
+		Tasks.jsx         # Main project/task manager and chat
+		Learnmore.jsx     # Info and AI chat about chunking
+		...               # Other components
+	style/
+		tasks.css         # Main styles (dark/red theme)
+		...               # Other styles
+public/
+	index.html
+```
+
+## Contributing
+
+Pull requests and suggestions are welcome! Please open an issue to discuss changes or improvements.
+
+## License
+
+This project is licensed under the MIT License.
