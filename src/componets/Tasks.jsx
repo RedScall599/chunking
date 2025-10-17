@@ -1,6 +1,8 @@
 // ===============================
 // React imports and styles
 // ===============================
+import { useEffect } from "react"
+
 import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
@@ -13,6 +15,46 @@ import "../style/tasks.css"
 export default function Tasks() {
 
   // ====== State Management ======
+
+  // ============ TIMER STATE ============
+const [timeLeft, setTimeLeft] = useState(0)          // seconds remaining
+const [running, setRunning] = useState(false)
+const [customMinutes, setCustomMinutes] = useState(0)
+const [customSeconds, setCustomSeconds] = useState(0)
+
+// Convert seconds → MM:SS format
+const formatTime = (seconds) => {
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
+}
+
+// Set total time based on inputs
+const handleSetTime = () => {
+  const totalSeconds = (parseInt(customMinutes || 0) * 60) + parseInt(customSeconds || 0)
+  if (totalSeconds > 0) {
+    setTimeLeft(totalSeconds)
+    setRunning(false)
+  }
+}
+
+// Countdown effect
+useEffect(() => {
+  let timer
+  if (running && timeLeft > 0) {
+    timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000)
+  } else if (timeLeft === 0 && running) {
+    setRunning(false)
+    try {
+      const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg")
+      audio.play()
+    } catch (err) {
+      console.warn("Audio play failed:", err)
+    }
+  }
+  return () => clearInterval(timer)
+}, [running, timeLeft])
+
 
   // Stores all chat messages (AI + user)
   const [messages, setMessages] = useState([])
@@ -325,6 +367,37 @@ export default function Tasks() {
             </form>
           </div>
         )}
+        {/* ============ TIMER SECTION ============ */}
+        <div className="timer-section">
+          <h3>⏰ Focus Timer</h3>
+
+          <div className="timer-display">{formatTime(timeLeft)}</div>
+
+          <div className="timer-inputs">
+            <input
+              type="number"
+              min="0"
+              placeholder="Min"
+              value={customMinutes}
+              onChange={(e) => setCustomMinutes(e.target.value)}
+            />
+            <input
+              type="number"
+              min="0"
+              placeholder="Sec"
+              value={customSeconds}
+              onChange={(e) => setCustomSeconds(e.target.value)}
+            />
+          </div>
+
+          <div className="timer-controls">
+            <button onClick={handleSetTime}>Set</button>
+            <button onClick={() => setRunning(true)} disabled={timeLeft === 0}>Start</button>
+            <button onClick={() => setRunning(false)}>Pause</button>
+            <button onClick={() => { setRunning(false); setTimeLeft(0); }}>Reset</button>
+          </div>
+        </div>
+
 
 
         {/* ===== Chat Section ===== */}
