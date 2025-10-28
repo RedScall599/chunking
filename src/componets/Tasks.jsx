@@ -3,7 +3,7 @@
 // ===============================
 import { useEffect } from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import ReactMarkdown from "react-markdown"
 import { useNavigate } from "react-router-dom"
 import "../style/tasks.css"
@@ -39,17 +39,26 @@ const handleSetTime = () => {
 }
 
 // Countdown effect
+// Create and preload audio once (using the file in /public)
+const audioRef = useRef(null)
 useEffect(() => {
+  try {
+    audioRef.current = new Audio("/mixkit-classic-alarm-995.wav")
+    audioRef.current.preload = "auto"
+    audioRef.current.crossOrigin = "anonymous"
+  } catch (err) {
+    console.warn("Failed to initialize audio:", err)
+  }
+
   let timer
   if (running && timeLeft > 0) {
     timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000)
   } else if (timeLeft === 0 && running) {
     setRunning(false)
-    try {
-      const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg")
-      audio.play()
-    } catch (err) {
-      console.warn("Audio play failed:", err)
+    if (audioRef.current) {
+      audioRef.current.play().catch(err => console.warn("Audio play failed:", err))
+    } else {
+      console.warn("No audio available to play")
     }
   }
   return () => clearInterval(timer)
@@ -392,7 +401,26 @@ useEffect(() => {
 
           <div className="timer-controls">
             <button onClick={handleSetTime}>Set</button>
-            <button onClick={() => setRunning(true)} disabled={timeLeft === 0}>Start</button>
+            <button
+              onClick={async () => {
+                // Try to unlock audio on first user gesture by playing muted then pausing
+                if (audioRef.current) {
+                  try {
+                    audioRef.current.muted = true
+                    await audioRef.current.play()
+                    audioRef.current.pause()
+                    audioRef.current.currentTime = 0
+                    audioRef.current.muted = false
+                  } catch (err) {
+                    console.warn("Audio unlock attempt failed:", err)
+                  }
+                }
+                setRunning(true)
+              }}
+              disabled={timeLeft === 0}
+            >
+              Start
+            </button>
             <button onClick={() => setRunning(false)}>Pause</button>
             <button onClick={() => { setRunning(false); setTimeLeft(0); }}>Reset</button>
           </div>
