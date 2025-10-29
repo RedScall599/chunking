@@ -1,16 +1,40 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "../style/home.css"
 import { auth, signInWithGoogle } from "../lib/firebase";
+import { signOut, onAuthStateChanged } from "firebase/auth"
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u)
+    })
+    return () => unsub()
+  }, [])
+
   const handleLogin = async () => {
-    const loggedUser = await signInWithGoogle();
-    setUser(loggedUser);
+    try {
+      const loggedUser = await signInWithGoogle();
+      setUser(loggedUser)
+      setMenuOpen(false)
+    } catch (err) {
+      console.error("Login failed:", err)
+    }
   };
 
-  const [menuOpen, setMenuOpen] = useState(false)
-  const navigate = useNavigate()
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      setUser(null)
+      setMenuOpen(false)
+    } catch (err) {
+      console.error("Logout failed:", err)
+    }
+  }
 
   return (
     <div className="home">
@@ -26,7 +50,11 @@ export default function Home() {
         {/* Slide-out menu */}
         {menuOpen && (
           <div className="menu-popup">
-            <button onClick={handleLogin}>Sign in with Google</button>
+            {user ? (
+              <button onClick={handleLogout}>Logout{user.displayName ? ` — ${user.displayName}` : ''}</button>
+            ) : (
+              <button onClick={handleLogin}>Sign in with Google</button>
+            )}
             <button onClick={() => navigate("/settings")}>Settings</button>
             <button onClick={() => navigate("/user")}>User</button>
             <button onClick={() => navigate("/tasks")}>Tasks</button>

@@ -5,6 +5,8 @@
 
 - **Project Management:**  
 	Create, track, and complete projects with customizable goals and checklists.
+- **Notes Mangement:**
+	Create notes for you save anything you want to remember,edit the saved note, and delete if you prefer not to save it.
 
 - **Task Progression:**  
 	Move projects from "Current" to "Finished" automatically as you complete all tasks.
