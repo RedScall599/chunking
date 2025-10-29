@@ -311,8 +311,7 @@ useEffect(() => {
           <div className="menu-popup">
             <button onClick={() => { navigate("/home"); setMenuOpen(false) }}>Home</button>
             <button onClick={() => { navigate("/learnmore"); setMenuOpen(false) }}>Learn More</button>
-            <button onClick={() => { navigate("/settings"); setMenuOpen(false) }}>Settings</button>
-            <button onClick={() => { navigate("/user"); setMenuOpen(false) }}>User</button>
+            {/* <button onClick={() => { navigate("/settings"); setMenuOpen(false) }}>Settings</button> */}
           </div>
         )}
       </div>

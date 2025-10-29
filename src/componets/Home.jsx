@@ -55,8 +55,8 @@ export default function Home() {
             ) : (
               <button onClick={handleLogin}>Sign in with Google</button>
             )}
-            <button onClick={() => navigate("/settings")}>Settings</button>
-            <button onClick={() => navigate("/user")}>User</button>
+            {/* <button onClick={() => navigate("/settings")}>Settings</button> */}
+            
             <button onClick={() => navigate("/tasks")}>Tasks</button>
           </div>
         )}

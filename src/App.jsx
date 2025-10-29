@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/homepage" element={<Home />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/settings" element={<Settings />} />
+        {/* <Route path="/settings" element={<Settings />} /> */}
 
       </Routes>
     </Router>
