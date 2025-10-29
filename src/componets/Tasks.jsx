@@ -71,6 +71,58 @@ useEffect(() => {
   // Stores user input for chat
   const [input, setInput] = useState("")
 
+  // === Notes state ===
+  const [showNotes, setShowNotes] = useState(false)
+  const [notes, setNotes] = useState([])
+  const [noteText, setNoteText] = useState("")
+  const [editingId, setEditingId] = useState(null)
+
+  // Load saved notes from localStorage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("chunking_notes")
+      if (raw) setNotes(JSON.parse(raw))
+    } catch (err) {
+      console.warn("Failed to load notes:", err)
+    }
+  }, [])
+
+  const handleSaveNote = () => {
+    const text = (noteText || "").trim()
+    if (!text) return
+    let updated
+    if (editingId) {
+      // update existing note
+      updated = notes.map(n => n.id === editingId ? { ...n, text } : n)
+    } else {
+      const newNote = { id: Date.now(), text }
+      updated = [...notes, newNote]
+    }
+    setNotes(updated)
+    try { localStorage.setItem("chunking_notes", JSON.stringify(updated)) } catch (err) { console.warn("Failed to save note:", err) }
+    setNoteText("")
+    setEditingId(null)
+  }
+
+  const handleDeleteNote = (id) => {
+    const updated = notes.filter(n => n.id !== id)
+    setNotes(updated)
+    try { localStorage.setItem("chunking_notes", JSON.stringify(updated)) } catch (err) { console.warn("Failed to delete note:", err) }
+  }
+
+  const handleEditNote = (id) => {
+    const found = notes.find(n => n.id === id)
+    if (!found) return
+    setNoteText(found.text)
+    setEditingId(id)
+    setShowNotes(true)
+  }
+
+  const handleCancelEdit = () => {
+    setEditingId(null)
+    setNoteText("")
+  }
+
   // Controls whether the hamburger menu is open
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -277,7 +329,9 @@ useEffect(() => {
             <button className="sidebar-item" onClick={() => setShowForm(!showForm)}>
               ➕ Create Project
             </button>
-            <button className="sidebar-item">📝 Review Notes</button>
+            <button className="sidebar-item" onClick={() => { setShowNotes(true); setMenuOpen(false); }}>
+              📝 Review Notes
+            </button>
           </div>
 
           {/* === Current Projects List === */}
@@ -476,6 +530,61 @@ useEffect(() => {
             <h3>{goalPopup.name}</h3>
             <p className="goal-text">{goalPopup.goals || "No goals set."}</p>
             <button onClick={() => setGoalPopup(null)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== Notes Modal (popup) ===== */}
+      {showNotes && (
+        <div
+          className="goal-popup-overlay"
+          style={{ zIndex: 1200 }}
+          onClick={() => { setShowNotes(false); setEditingId(null); setNoteText("") }}
+        >
+          <div
+            className="goal-popup"
+            style={{ maxWidth: 700, width: '95%' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Review Notes</h3>
+
+            <div style={{ maxHeight: '40vh', overflowY: 'auto', marginBottom: 12 }}>
+              {notes.length === 0 ? (
+                <p>No notes yet. Add one below.</p>
+              ) : (
+                notes.map(n => (
+                  <div key={n.id} style={{ border: '1px solid #ff4444', padding: 10, borderRadius: 8, marginBottom: 8 }}>
+                    <div style={{ whiteSpace: 'pre-wrap' }}>{n.text}</div>
+                    <div style={{ marginTop: 8, display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                      <button className="goal-btn" onClick={() => handleEditNote(n.id)}>Edit</button>
+                      <button className="goal-btn" onClick={() => handleDeleteNote(n.id)}>Delete</button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <label className="form-label">{editingId ? 'Edit Note' : 'New Note'}</label>
+            <textarea
+              className="form-textarea"
+              placeholder="Type your note here..."
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+            />
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 12, justifyContent: 'flex-end' }}>
+              {editingId ? (
+                <>
+                  <button className="save-project-btn" onClick={handleSaveNote}>Save</button>
+                  <button className="goal-btn" onClick={handleCancelEdit}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <button className="save-project-btn" onClick={handleSaveNote}>Save</button>
+                  <button className="goal-btn" onClick={() => { setShowNotes(false); setNoteText("") }}>Close</button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
