@@ -172,7 +172,7 @@ useEffect(() => {
           messages: [
             {
               role: "system",
-              content: "You are a helpful assistant that explains Chunking clearly. Summarize in 5 to 6 bullet points."
+              content: "You are a helpful assistant that explains how to break down projects/tasks into smaller chunks. Summarize in 5 to 6 bullet points."
             },
             { role: "user", content: input }
           ]
@@ -310,7 +310,6 @@ useEffect(() => {
         {menuOpen && (
           <div className="menu-popup">
             <button onClick={() => { navigate("/home"); setMenuOpen(false) }}>Home</button>
-            <button onClick={() => { navigate("/learnmore"); setMenuOpen(false) }}>Learn More</button>
             {/* <button onClick={() => { navigate("/settings"); setMenuOpen(false) }}>Settings</button> */}
           </div>
         )}
